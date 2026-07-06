@@ -12,7 +12,6 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     let loginUser = JSON.parse(localStorage.getItem('loginUser'))
-    console.log(localStorage.getItem('loginUser'))
     if (loginUser) {
       config.headers.token = loginUser.token
     }
@@ -27,7 +26,8 @@ request.interceptors.response.use(
   },
   (error) => { //失败回调
     //如果响应的状态码为401, 则路由到登录页面
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('loginUser')
       ElMessage.error('登录失效, 请重新登录')
       router.push('/login')
     }

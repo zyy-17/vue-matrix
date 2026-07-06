@@ -15,7 +15,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-     path: '/', 
+     path: '/',
      name: '',
      component: LayoutView,
      redirect: '/index', //重定向
@@ -26,13 +26,33 @@ const router = createRouter({
       {path: 'dept', name: 'dept', component: DeptView},
       {path: 'emp', name: 'emp', component: EmpView},
       {path: 'log', name: 'log', component: LogView},
-      
+
       {path: 'report/emp', name: 'empReport', component: EmpReportView},
       {path: 'report/stu', name: 'stuReport', component: StuReportView},
      ]
     },
     {path: '/login', name: 'login', component: LoginView}
   ]
+})
+
+//导航守卫 - 未登录用户只能访问登录页，已登录用户访问登录页自动跳转首页
+router.beforeEach((to, from, next) => {
+  const loginUser = localStorage.getItem('loginUser')
+  if (to.path === '/login') {
+    //已登录用户访问登录页时自动跳转到首页
+    if (loginUser) {
+      next('/index')
+    } else {
+      next()
+    }
+  } else {
+    //未登录用户访问受保护页面时跳转到登录页
+    if (!loginUser) {
+      next('/login')
+    } else {
+      next()
+    }
+  }
 })
 
 export default router

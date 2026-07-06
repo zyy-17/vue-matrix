@@ -117,6 +117,7 @@ const addClazz = () => {
 const updateClazz = async (id) => {
   clearClazz()
   dialogFormVisible.value = true
+  formTitle.value = '修改班级'
   let result = await queryInfoApi(id)
   if(result.code){
     clazz.value = result.data

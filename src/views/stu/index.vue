@@ -141,11 +141,11 @@ const rules = ref({
   gender: [{ required: true, message: '性别为必填项', trigger: 'change' }],
   phone: [
     { required: true, message: '手机号为必填项', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/g, message: '请输入合法的手机号', trigger: 'blur' }
+    { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的手机号', trigger: 'blur' }
   ],
   idCard: [
     { required: true, message: '身份证号为必填项', trigger: 'blur' },
-    { pattern: /^\d{18}$/g, message: '请输入合法的身份证号', trigger: 'blur' }
+    { pattern: /^\d{18}$/, message: '请输入合法的身份证号', trigger: 'blur' }
   ],
   isCollege: [
     { required: true, message: '是否院校学员为必填项', trigger: 'change' }
@@ -228,7 +228,7 @@ const openViolation = (id) => {
   ElMessageBox.prompt('请输入违纪扣分', '提示', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
-    inputPattern: /\d?/,
+    inputPattern: /^\d+$/,
     inputErrorMessage: '数据无效',
   }).then(async (val) => {    
     let result = await handleViolationApi(id, val.value);

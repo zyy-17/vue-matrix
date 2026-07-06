@@ -9,7 +9,9 @@ let tableData = ref([])
 // 动态加载数据 - 查询部门
 const queryAll = async () => {
   const result = await queryAllApi()
-  tableData.value = result.data
+  if(result.code){
+    tableData.value = result.data
+  }
 }
 
 // 钩子函数

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { queryPageApi, addEmpApi, queryInfoApi, updateEmpApi, deleteEmpApi} from '@/api/emp'
 import { queryAllApi as queryAllDeptApi } from '@/api/dept'
@@ -235,19 +235,15 @@ const delExprItem = (index) => {
   employee.value.exprList.splice(index, 1)
 }
 
-//监听-employee员工对象中的工作经历数据
-watch(employee, (newVal, oldVal) => {
-  if(employee.value.exprList) {
-    employee.value.exprList.forEach(expr => {
-      expr.begin = expr.exprDate[0]
-      expr.end = expr.exprDate[1]
-    })
-  }
-}, {deep: true})
-
-
 //保存员工信息
 const save = async () => {
+  //在保存前统一将工作经历的日期数组转换为独立的 begin/end 字符串字段
+  if(employee.value.exprList && employee.value.exprList.length > 0){
+    employee.value.exprList.forEach(expr => {
+      expr.begin = expr.exprDate[0] || ''
+      expr.end = expr.exprDate[1] || ''
+    })
+  }
   employeeFormRef.value.validate(async valid => {
     if(valid){ // 校验通过
       let result ;

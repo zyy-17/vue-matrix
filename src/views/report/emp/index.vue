@@ -32,16 +32,19 @@ onUnmounted(() => {
 //获取职位统计报表
 const loadJobChart = async () => {
   let result = await queryEmpJobDataApi();
-  let jobList = result.data.jobList;
-  let dataList = result.data.dataList;
-
-  initJobChart(jobList, dataList)
+  if(result.code){
+    let jobList = result.data.jobList;
+    let dataList = result.data.dataList;
+    initJobChart(jobList, dataList)
+  }
 }
 
 //获取性别统计报表
 const loadGenderChart = async () => {
   let result = await queryEmpGenderDataApi();
-  initGenderChart(result.data)
+  if(result.code){
+    initGenderChart(result.data)
+  }
 }
 
 

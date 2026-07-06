@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, nextTick, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
-import { queryStudentCountDataApi, queryEmpGenderDataApi, queryStudentDegreeDataApi } from '@/api/report'
+import { queryStudentCountDataApi, queryStudentDegreeDataApi } from '@/api/report'
 
 // 定义两个全局变量用来存放图表实例，方便在生命周期结束时销毁
 let studentCountChartInstance = null;
@@ -30,16 +30,19 @@ onUnmounted(() => {
 // 获取职位统计报表
 const loadStudentCountChart = async () => {
   let result = await queryStudentCountDataApi();
-  let clazzList = result.data.clazzList;
-  let dataList = result.data.dataList;
-
-  initStudentCountChart(clazzList, dataList)
+  if(result.code){
+    let clazzList = result.data.clazzList;
+    let dataList = result.data.dataList;
+    initStudentCountChart(clazzList, dataList)
+  }
 }
 
 // 获取性别统计报表
 const loadDegreeChart = async () => {
   let result = await queryStudentDegreeDataApi();
-  initDegreeChart(result.data)
+  if(result.code){
+    initDegreeChart(result.data)
+  }
 }
 
 // 班级人数统计报表
